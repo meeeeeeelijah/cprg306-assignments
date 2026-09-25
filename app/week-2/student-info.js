@@ -1,9 +1,10 @@
-import Link from 'next/link';
+import Link from "next/link";
+
 export default function StudentInfo() {
     return (
         <div>
-            <p>Elijah Baloyo</p>
-            <Link href="https://github.com/meeeeeeelijah/cprg306-assignments.git">My GitHub Repository</Link>
+            <p>Name:Kevin Saji</p>
+            <Link href="https://github.com/kevinsaji99/cprg306-assignments">My GitHub Repository</Link>
         </div>
-    )
+    );
 }
