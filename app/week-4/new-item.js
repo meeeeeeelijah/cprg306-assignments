@@ -1,11 +1,11 @@
-'use-client';
+'use client';
 
 import { useState } from 'react';
 export default function NewItem() {
-    const {quantity, setQuantity} = useState(1);
+    const [quantity, setQuantity] = useState(1);
 
     function increment () {
-        if (quantity < 10) {
+        if (quantity < 20) {
             setQuantity(quantity + 1);
         }
     }
