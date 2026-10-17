@@ -1,10 +1,10 @@
-export default function Page(){
-    return {
-        <main>
-            <h1 className="text-2xl">
-             </h1>
-        </main>
-    }
+import NewItem from './new-item';
 
-    <input type="number" min="1" max="20" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+export default function Page() {
+    return (
+        <main className="min-h-screen bg-black p-8 text-white">
+            <h1 className="mb-6 text-3xl font-bold">New Shopping List item</h1>
+            <NewItem />
+        </main>
+    );
 }
