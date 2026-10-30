@@ -38,6 +38,18 @@ export default function Home() {
       >
         Week 6 Assignment
       </Link>
+      <Link
+        href="/week-7"
+        className="rounded-full bg-foreground px-5 py-3 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+      >
+        Week 7 Assignment
+      </Link>
+      <Link
+        href="/week-8"
+        className="rounded-full bg-foreground px-5 py-3 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+      >
+        Week 8 Assignment
+      </Link>
     </main>
   );
 }
