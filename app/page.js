@@ -40,6 +40,12 @@ export default function Page() {
           </Link>
         </li>
 
+        <li>
+          <Link href="/week-8" className="hover:underline">
+            Week 8 Assignment
+          </Link>
+        </li>
+
 
       </ul>
     </main>
