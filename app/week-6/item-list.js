@@ -21,10 +21,16 @@ export default function ItemList() {
   return (
     <section className="mt-6">
       <div className="flex gap-3">
-        <button className={buttonClass("name")} onClick={() => setSortBy("name")}>
+        <button
+          className={buttonClass("name")}
+          onClick={() => setSortBy("name")}
+        >
           Sort by Name
         </button>
-        <button className={buttonClass("category")} onClick={() => setSortBy("category")}>
+        <button
+          className={buttonClass("category")}
+          onClick={() => setSortBy("category")}
+        >
           Sort by Category
         </button>
       </div>

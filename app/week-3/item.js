@@ -1,5 +1,4 @@
 export default function Item({ name, quantity, category }) {
- 
   return (
     <li className="p-3 pr-25 m-2 bg-slate-800 text-white rounded">
       <h2 className="font-bold text-2xl">{name}</h2>

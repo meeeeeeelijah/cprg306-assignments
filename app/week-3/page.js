@@ -1,7 +1,7 @@
-import ItemList from "./item-list"
+import ItemList from "./item-list";
 
- export const metadata = {
-  title: "Shopping List"
+export const metadata = {
+  title: "Shopping List",
 };
 
 export default function Page() {
@@ -12,5 +12,5 @@ export default function Page() {
         <ItemList />
       </div>
     </main>
-  )
- }
+  );
+}
