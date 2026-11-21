@@ -1,47 +1,46 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useUserAuth } from './_utils/auth-context';
+import { useUserAuth } from "./_utils/auth-context";
+
+import Link from "next/link";
 
 export default function Page() {
-  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+    const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
 
-  return (
-    <main className="min-h-screen bg-black p-8 text-white">
-      <h1 className="mb-6 text-3xl font-bold">Week 9</h1>
+    async function handleSignIn() {
+        try {
+            await gitHubSignIn();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-      {!user ? (
-        <button
-          type="button"
-          onClick={gitHubSignIn}
-          className="rounded bg-cyan-600 px-4 py-2 font-bold hover:bg-cyan-500"
-        >
-          Sign in with GitHub
-        </button>
-      ) : (
-        <div className="space-y-4">
-          <p>
-            Welcome, {user.displayName || user.email}
-          </p>
+    async function handleSignOut() {
+        try {
+            await firebaseSignOut();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    return (
+        <main className="p-6">
+            <h1 className="text-3xl font-bold mb-4">Shopping List App</h1>
 
-          <button
-            type="button"
-            onClick={firebaseSignOut}
-            className="rounded bg-red-600 px-4 py-2 font-bold hover:bg-red-500"
-          >
-            Sign out
-          </button>
+            {user ? (
+                <div className="space-y-3"> 
+                    <p>
+                    Welcome, {user.displayName} ({user.email})
+                    </p>
+                    <Link href="/week-9/shopping-list" className="text-blue-500 underline block">Continue to your Shopping Link</Link>
+                    <button onClick={handleSignOut} className="bg-red-600 text-white px-4 py-2 rounded">Log out</button>
+                </div>
+            ) : (
+                <button onClick={handleSignIn} className="bg-gray-800 text-white px-4 py-2 rounded">Sign in with your GitHub</button>
+            )}
 
-          <div>
-            <Link
-              href="/week-9/shopping-list"
-              className="text-cyan-400 hover:underline"
-            >
-              Go to Shopping List
-            </Link>
-          </div>
-        </div>
-      )}
-    </main>
-  );
+        </main>
+    );
 }
+

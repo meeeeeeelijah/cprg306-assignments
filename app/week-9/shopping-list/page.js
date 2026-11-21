@@ -1,56 +1,46 @@
-'use client';
-
-import { useState } from 'react';
-import NewItem from './new-item';
-import ItemList from './item-list';
-import MealIdeas from './meal-ideas';
-import itemsData from './items.json';
-import { useUserAuth } from '../_utils/auth-context';
+"use client";
+import ItemList from "./item-list";
+import NewItem from "./new-item";
+import itemsData from "./items.json";
+import { useState } from "react";
+import MealIdeas from "./meal-ideas";
+import { useUserAuth } from "../_utils/auth-context";
 
 export default function Page() {
-  const { user } = useUserAuth();
-  const [items, setItems] = useState(itemsData);
-  const [selectedItemName, setSelectedItemName] = useState('');
 
-  if (!user) {
-    return (
-      <main className="min-h-screen bg-black p-8 text-white">
-        <p>Please sign in to view the shopping list.</p>
-      </main>
-    );
-  }
+    const [items, setItems] = useState(itemsData);
+    const [selectedItemName, setSelectedItemName] = useState("");
+    const { user } = useUserAuth();
 
-  function handleAddItem(item) {
-    setItems((currentItems) => [item, ...currentItems]);
-  }
+    function handleAddItem(newItem) {
+        setItems([...items, newItem]);
+    }
 
-  function handleItemSelect(item) {
-    const cleanedName = item.name
-      .split(',')[0]
-      .replace(/[^\p{L}\p{N}\s-]/gu, '')
-      .trim();
+    function handleItemSelect(item) {
+        const cleanName = item.name
+            .split(",")[0]
+            .replace(/\p{Extended_Pictographic}/gu, "")
+            .trim();
+        console.log(cleanName); 
+        setSelectedItemName(cleanName);    
+    }
 
-    setSelectedItemName(cleanedName);
-  }
-
-  return (
-    <main className="min-h-screen bg-black p-8 text-white">
-      <h1 className="mb-6 text-3xl font-bold">Shopping List</h1>
-
-      <div className="flex flex-col gap-8 md:flex-row">
-        <div className="flex-1 space-y-8">
-          <NewItem onAddItem={handleAddItem} />
-
-          <ItemList
-            items={items}
-            onItemSelect={handleItemSelect}
-          />
-        </div>
-
-        <div className="flex-1">
-          <MealIdeas ingredient={selectedItemName} />
-        </div>
-      </div>
-    </main>
-  );
+    if(!user) {
+        return (
+        <p>
+            You are not logged in
+        </p>
+        )
+    }
+    
+    return(
+        <main className="mx-auto min-h-screen bg-rose-950 bg-blend-saturation p-4 border-2 rounded-3xl">
+            <div className="flex gap-8">
+                <h1 className="text-center m-6 font-serif text-2xl text-amber-500">Shopping List</h1>
+                <ItemList items={items} onItemSelect={handleItemSelect}/>
+                <NewItem onAddItem={handleAddItem}/>
+                <MealIdeas ingredient={selectedItemName}></MealIdeas>
+            </div>
+        </main>
+    )
 }

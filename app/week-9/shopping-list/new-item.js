@@ -1,136 +1,86 @@
-'use client';
+"use client"
+import { useState } from "react";
 
-import { useState } from 'react';
+export default function NewItem({onAddItem}) {
+    const [quantity, setQuantity] = useState(1);
+    const [name, setName] = useState("");
+    const [category, setCategory] = useState("produce");
 
-const categories = [
-  ['produce', 'Produce'],
-  ['dairy', 'Dairy'],
-  ['bakery', 'Bakery'],
-  ['meat', 'Meat'],
-  ['frozen-foods', 'Frozen Foods'],
-  ['canned-goods', 'Canned Goods'],
-  ['dry-goods', 'Dry Goods'],
-  ['beverages', 'Beverages'],
-  ['snacks', 'Snacks'],
-  ['household', 'Household'],
-  ['other', 'Other'],
-];
 
-export default function NewItem({ onAddItem }) {
-  const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState(1);
-  const [category, setCategory] = useState('produce');
+    function handleSubmit(e) {
+        e.preventDefault();
+        const item = {id: Math.random().toString(36).substring(2, 9), name, quantity, category};
+        onAddItem(item);
 
-  function increment() {
-    if (quantity < 20) {
-      setQuantity(quantity + 1);
+        setName("");
+        setQuantity(1);
+        setCategory("produce");
     }
-  }
 
-  function decrement() {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+    function handleNewName(e) {
+        setName(e.target.value);
     }
-  }
+    function handleNewCategory(e) {
+        setCategory(e.target.value);
+    }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+    function increment() {
+        if (quantity < 20) {
+            setQuantity(quantity + 1)
+        }
+    }
 
-    const item = {
-      id: crypto.randomUUID(),
-      name,
-      quantity,
-      category,
-    };
+    function decrement() {
+        if (quantity > 1) {
+            setQuantity(quantity - 1)
+        }
+    }
 
-    onAddItem(item);
-
-    setName('');
-    setQuantity(1);
-    setCategory('produce');
-  }
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md space-y-6 rounded-lg border border-neutral-800 bg-neutral-900 p-6"
-    >
-      <div>
-        <label
-          htmlFor="name"
-          className="mb-2 block font-semibold text-cyan-400"
+    return (
+        <form
+            onSubmit={handleSubmit}
+            className="max-w-sm mx-auto mt-8 p-6 rounded-lg bg-slate-600 text-white space-y-4"
         >
-          Item Name
-        </label>
+            <div>
+                <label htmlFor="name" className="block mb-1 text-white">Item Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={handleNewName}
+                    required    
+                    className="w-full rounded p-2 text-black"
+                />
+            </div>
 
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-          className="w-full rounded border border-neutral-700 bg-neutral-800 px-3 py-2 text-white outline-none focus:border-cyan-400"
-        />
-      </div>
+            <div>
+                <label htmlFor="category" className="block mb-1 text-white">Category</label>
+                <select 
+                    id="category"
+                    value={category}
+                    onChange={handleNewCategory}
+                    className="w-full rounded p-2 text-gray-800"
+                >
+                    <option value="produce">Produce</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="bakery">Bakery</option>
+                    <option value="meat">Meat</option>
+                    <option value="frozen foods">Frozen Foods</option>
+                    <option value="canned goods">Canned Goods</option>
+                    <option value="dry goods">Dry Goods</option>
+                    <option value="beverages">Beverages</option>
+                    <option value="snacks">Snacks</option>
+                    <option value="household">Household</option>
+                    <option value="other">Other</option>
+                </select>           
+            </div>
 
-      <div>
-        <span className="mb-2 block font-semibold text-cyan-400">
-          Quantity
-        </span>
-
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            onClick={decrement}
-            disabled={quantity === 1}
-            className="rounded bg-cyan-600 px-4 py-2 font-bold text-white hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            -
-          </button>
-
-          <span className="min-w-12 text-center text-2xl font-bold">
-            {quantity}
-          </span>
-
-          <button
-            type="button"
-            onClick={increment}
-            disabled={quantity === 20}
-            className="rounded bg-cyan-600 px-4 py-2 font-bold text-white hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <label
-          htmlFor="category"
-          className="mb-2 block font-semibold text-cyan-400"
-        >
-          Category
-        </label>
-
-        <select
-          id="category"
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-          className="w-full rounded border border-neutral-700 bg-neutral-800 px-3 py-2 text-white outline-none focus:border-cyan-400"
-        >
-          {categories.map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full rounded bg-cyan-600 px-4 py-2 font-bold text-white hover:bg-cyan-500"
-      >
-        Add Item
-      </button>
-    </form>
-  );
+            <div>
+                <p>Quantity: {quantity}</p>
+                <button type="button" onClick={increment} className="rounded bg-green-700 hover:bg-green-900 p-2 m-2">Increment</button>
+                <button type="button" onClick={decrement} className="rounded bg-blue-700 hover:bg-blue-900 p-2 m-2">Decrement</button>
+            </div>
+            <button type="submit" className="rounded bg-red-700 hover:bg-red-900 p-2 m-2">Add Item</button>
+        </form>
+    )
 }

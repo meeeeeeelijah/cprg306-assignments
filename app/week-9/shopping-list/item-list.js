@@ -1,53 +1,39 @@
-'use client';
+"use client";
+import Item from "./item";
+import {useState} from "react";
+import MealIdeas from "./meal-ideas";
 
-import { useState } from 'react';
-import Item from './item';
+export default function ItemList({items, onItemSelect}) {
 
-export default function ItemList({ items, onItemSelect }) {
-  const [sortBy, setSortBy] = useState('name');
-
-  const sortedItems = [...items].sort((a, b) => {
-    return a[sortBy].localeCompare(b[sortBy]);
-  });
-
-  const activeButtonClass = 'bg-cyan-600';
-  const inactiveButtonClass = 'bg-neutral-700';
-
-  return (
-    <section>
-      <div className="mb-6 flex gap-3">
-        <button
-          type="button"
-          onClick={() => setSortBy('name')}
-          className={`rounded px-4 py-2 font-bold text-white hover:bg-cyan-500 ${
-            sortBy === 'name' ? activeButtonClass : inactiveButtonClass
-          }`}
-        >
-          Sort by Name
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setSortBy('category')}
-          className={`rounded px-4 py-2 font-bold text-white hover:bg-cyan-500 ${
-            sortBy === 'category' ? activeButtonClass : inactiveButtonClass
-          }`}
-        >
-          Sort by Category
-        </button>
-      </div>
-
-      <ul className="space-y-4">
-        {sortedItems.map((item) => (
-          <Item
-            key={item.id}
-            name={item.name}
-            quantity={item.quantity}
-            category={item.category}
-            onSelect={() => onItemSelect(item)}
-          />
-        ))}
-      </ul>
-    </section>
-  );
+    const [sortBy, setSortBy] = useState("name");
+                    
+    const sortedItems = [...items].sort((a, b) => {
+        if (sortBy === "name") {
+            return a.name.localeCompare(b.name);                         
+        }
+        else if (sortBy === "category") {
+            return a.category.localeCompare(b.category);
+        }
+        return 0;
+    });
+         
+    return(
+        <div>
+            <div className="mb-4">
+                <button onClick={() => setSortBy("name")} className={`px-3 py-1 mr-2 rounded text-white ${sortBy === "name" ? "bg-blue-800" : "bg-gray-500"}`}>name</button>
+                <button onClick={() => setSortBy("category")} className={`px-3 py-1 mr-2 rounded text-white ${sortBy === "category" ? "bg-blue-800" : "bg-gray-500"}`}>category</button>                                                     
+            </div>
+            <ul>
+                {sortedItems.map((item) => (
+                    <Item
+                        key={item.id}
+                        name={item.name}
+                        quantity={item.quantity}
+                        category={item.category}
+                        onSelect={() => onItemSelect(item)}
+                    />
+                ))}
+            </ul>
+        </div>
+    )
 }

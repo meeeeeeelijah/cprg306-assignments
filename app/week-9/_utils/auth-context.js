@@ -1,45 +1,45 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from "react";
 import {
-  GithubAuthProvider,
-  onAuthStateChanged,
   signInWithPopup,
   signOut,
-} from 'firebase/auth';
-import { auth } from './firebase';
+  onAuthStateChanged,
+  GithubAuthProvider,
+} from "firebase/auth";
+import { auth } from "./firebase";
 
 const AuthContext = createContext();
 
-export function AuthContextProvider({ children }) {
+export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  function gitHubSignIn() {
+  const gitHubSignIn = () => {
     const provider = new GithubAuthProvider();
     return signInWithPopup(auth, provider);
-  }
+  };
 
-  function firebaseSignOut() {
+  const firebaseSignOut = () => {
     return signOut(auth);
-  }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   return (
-    <AuthContext.Provider
-      value={{ user, gitHubSignIn, firebaseSignOut }}
-    >
+    <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useUserAuth() {
+export const useUserAuth = () => {
   return useContext(AuthContext);
-}
+};
+
+// Part 3: auth-context code ends
+
